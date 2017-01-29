@@ -38,8 +38,8 @@ app.get('/posts', function(req, res){
 
 // deploy to heroku
 //
-// app.listen(process.env.PORT || 3000, function(){
-//
-// });
+app.listen(process.env.PORT || 3000, function(){
 
-app.listen(3000);
+});
+
+// app.listen(3000);
