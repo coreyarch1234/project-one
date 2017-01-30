@@ -14,7 +14,7 @@ var express = require('express');
 var exphbs  = require('express-handlebars');
 var app = express();
 
-
+//MIDDLEWARE
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
@@ -25,7 +25,7 @@ app.get('/', function (req, res) {
     res.render('home');
 });
 
-//Posts route
+//Posts route//INDEX
 app.get('/posts', function(req, res){
     var posts = [
         {body:'This is my first post.'},
@@ -36,10 +36,9 @@ app.get('/posts', function(req, res){
     res.render('posts-index', {posts: posts});
 });
 
-// deploy to heroku
-//
+
+
+//DEPLOY
 app.listen(process.env.PORT || 3000, function(){
 
 });
-
-// app.listen(3000);
