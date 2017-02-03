@@ -1,19 +1,14 @@
-// var express = require('express');
-// var app = express();
-//
-// var http = require('http');
-// var server = http.createServer(function(request, response){
-//     console.log("got a request");
-//     response.write("hello");
-//     response.end();
-// });
-//
-// server.listen('3000');
 
 //Express Set
 var express = require('express');
 var exphbs  = require('express-handlebars');
 var app = express();
+var bodyParser = require('body-parser');
+//Allows you to use req.body
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 //MIDDLEWARE
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -26,29 +21,39 @@ app.use(express.static('public'));
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
 
-var Post = require("../models/post.js");
+var Post = require("./models/post.js");
 
 //Root route
 app.get('/', function (req, res) {
-    res.render('home');
+    Post.find().exec(function(err, posts){
+        res.render('home', {posts: posts});
+    });
 });
 
-//Posts route//INDEX
-app.get('/posts', function(req, res){
-    // var posts = [
-    //     {body:'This is my first post.'},
-    //     {body:'This is my second post'},
-    //     {body:'This is my third post'}
-    // ];
+//Posts show
+app.get('/posts/:id', function(req, res){
+    Post.findById(req.params.id).exec(function(err, post){
+        res.render('post-show', {post: post});
+    });
+});
 
-    Post.findOne({ 'body': 'Hello World' }, 'name occupation', function (err, person) {
-      if (err) return handleError(err);
-      console.log('%s %s is a %s.', person.name.first, person.name.last, person.occupation) // Space Ghost is a talk show host.
-    })
+//Posts route. Post posts. Save to database.
+app.post('/posts', function(req, res){
+    var post = req.body;
+    Post.create(post, function(err, post){
+        if (err){ return res.status(300) };
+        res.status(200).json(post);
+    });
+
+    // Post.findOne({ 'body': 'Hello World' }, function (err, person) {
+    //   if (err) return handleError(err);
+    // //   console.log('%s %s is a %s.', person.name.first, person.name.last, person.occupation) // Space Ghost is a talk show host.
+    // })
 
     // res.json(posts);
-    res.render('posts-index', {posts: posts});
+    // res.render('posts-index', {posts: posts});
 });
+
 
 
 

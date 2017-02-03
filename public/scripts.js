@@ -1,7 +1,25 @@
 $(document).ready(function(){
     $('#new-post').submit(function(e){
         e.preventDefault();
-        $(".list-group").prepend("<li class='list-group-item'>" + $("#post-body").val() + "</li>");
+        var post = $(this).serialize();
+        // $.post('/posts', post, function(data){
+        //     console.log(data)
+        //     $('.list-group').append("<li class='list-group-item'>" + "<a href='/posts/{{this._id}}'>" + data.body + "</a>" + "</li>");
+        //     $('#new-post')[0].reset();
+        // });
+        $.ajax({
+           url: '/posts',
+           data: post,
+           error: function() {
+              alert('Error');
+           },
+           dataType: 'json',
+           success: function(data) {
+              $('.list-group').append("<li class='list-group-item'>" + "<a href='/posts/{{this._id}}'>" + data.body + "</a>" + "</li>");
+              $('#new-post')[0].reset();
+           },
+           type: 'POST'
+        });
     });
 });
 
