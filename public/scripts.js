@@ -2,11 +2,6 @@ $(document).ready(function(){
     $('#new-post').submit(function(e){
         e.preventDefault();
         var post = $(this).serialize();
-        // $.post('/posts', post, function(data){
-        //     console.log(data)
-        //     $('.list-group').append("<li class='list-group-item'>" + "<a href='/posts/{{this._id}}'>" + data.body + "</a>" + "</li>");
-        //     $('#new-post')[0].reset();
-        // });
         $.ajax({
            url: '/posts',
            data: post,
@@ -19,6 +14,19 @@ $(document).ready(function(){
               $('#new-post')[0].reset();
            },
            type: 'POST'
+        });
+    });
+    $('#remove-post').click(function(e){
+        e.preventDefault();
+        var post = $(this);
+        var postId = post.data('id');
+        console.log(postId);
+        $.ajax({
+           url: '/posts/' + postId,
+           type: 'DELETE',
+           success: function(data) {
+              post.parent().remove();
+           },
         });
     });
 });

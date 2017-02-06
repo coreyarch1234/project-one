@@ -37,7 +37,7 @@ app.get('/posts/:id', function(req, res){
     });
 });
 
-//Posts route. Post posts. Save to database.
+//Posts Create route. Post posts. Save to database.
 app.post('/posts', function(req, res){
     var post = req.body;
     Post.create(post, function(err, post){
@@ -52,6 +52,14 @@ app.post('/posts', function(req, res){
 
     // res.json(posts);
     // res.render('posts-index', {posts: posts});
+});
+
+//Posts delete
+app.delete('/posts/:id', function(req, res){
+    Post.findById(req.params.id).exec(function(err, post){
+        post.remove();
+        res.status(200).json({});
+    });
 });
 
 

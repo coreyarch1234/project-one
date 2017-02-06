@@ -7,23 +7,20 @@
             <!-- <img id="just-do-it" class = "img-responsive"src="/images/just_du_it.jpg" alt=""> -->
         </div>
         <div class="col-md-6">
-            <form action='#' id='new-post'>
+            <form action='/posts' id='new-post'>
                 <label for='body'>New Post</label></br>
-                <input type="text" name="body" />
+                <input type="text" placeholder= "Enter a post" name="body" />
                   <button type='submit'>Save</button>
             </form>
             <h2>Posts</h2>
             <ul class="list-group">
               {{#each posts}}
-                <li class='list-group-item'><a href= '/posts/{{this._id}}'>{{this.body}}</a></li>
+                <li class='list-group-item'>
+                    <a href= '/posts/{{this._id}}'>{{this.body}}</a>
+                    <div id="remove-post" data-id="{{this._id}}">remove</div>
+                </li>
               {{/each}}
             </ul>
         </div>
-        <!-- <div class="col-sm-4">
-            <video width="320" height="240" controls class="img img-responsive">
-              <source src="movie.mp4" type="video/mp4">
-              <source src="movie.ogg" type="video/ogg">
-            </video>
-        </div> -->
     </div>
 </div>
