@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    //Create
     $('#new-post').submit(function(e){
         e.preventDefault();
         var post = $(this).serialize();
@@ -16,7 +17,8 @@ $(document).ready(function(){
            type: 'POST'
         });
     });
-    $('#remove-post').click(function(e){
+    //Delete
+    $('.remove-post').click(function(e){
         e.preventDefault();
         var post = $(this);
         var postId = post.data('id');
@@ -29,6 +31,28 @@ $(document).ready(function(){
            },
         });
     });
+
+    //update
+    $('#update-post').submit(function(e){
+        e.preventDefault();
+        var post = $(this).serialize();
+        var postId = window.location.pathname.replace("/posts", "").replace("edit","").replace("/","").replace("/","")
+        // window.location.pathname.split('/')[2];
+        $.ajax({
+            url: "/posts/" + postId,
+            type: "PUT",
+            data: post,
+            error: function() {
+               alert('Error');
+            },
+            dataType: 'json',
+            success: function(data){
+                // console.log(data);
+                window.location.href = "/";
+            }
+        });
+    });
+
 });
 
 

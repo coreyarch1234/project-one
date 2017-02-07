@@ -23,7 +23,7 @@ mongoose.connect('mongodb://localhost/test');
 
 var Post = require("./models/post.js");
 
-//Root route
+//Index route
 app.get('/', function (req, res) {
     Post.find().exec(function(err, posts){
         res.render('home', {posts: posts});
@@ -61,6 +61,28 @@ app.delete('/posts/:id', function(req, res){
         res.status(200).json({});
     });
 });
+
+//Display the edit form
+app.get('/posts/:id/edit', function(req, res){
+    Post.findById(req.params.id).exec(function(err, post){
+        res.render('posts-edit', {post: post});
+    });
+})
+
+//Posts Update
+app.put('/posts/:id', function(req, res){
+    console.log(req.params.id)
+    Post.findById(req.params.id).exec(function(err, post){
+        if (err){ return res.status(300) };
+        post.body = req.body.body;
+        // save the post
+        post.save(function(err, post) {
+            if (err) { return res.send(err) };
+            res.send(post);
+        });
+    });
+});
+
 
 
 
