@@ -2,18 +2,20 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
 
-var PostSchema = new Schema({
+var CommentSchema = new Schema({
   createdAt     : { type: Date },
   updatedAt     : { type: Date },
-  body   : { type: String, required: true },
-  comments: [{
+  description   : { type: String, required: true },
+  post: {
       type: Schema.Types.ObjectId,
-      ref: 'Comment'
-  }]
+      ref: 'Post'
+  }
+
+
 })
 
 // SET createdAt and updatedAt
-PostSchema.pre('save', function(next) {
+CommentSchema.pre('save', function(next) {
     now = new Date();
     this.updatedAt = now;
     if ( !this.createdAt ) {
@@ -22,6 +24,6 @@ PostSchema.pre('save', function(next) {
     next();
 });
 
-var Post = mongoose.model('Post', PostSchema);
+var Comment = mongoose.model('Comment', CommentSchema);
 
-module.exports = Post;
+module.exports = Comment;

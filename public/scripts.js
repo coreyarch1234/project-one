@@ -17,6 +17,26 @@ $(document).ready(function(){
            type: 'POST'
         });
     });
+
+    //Create Comment
+    $('#new-comment').submit(function(e){
+        e.preventDefault();
+        var comment = $(this).serialize();
+        $.ajax({
+           url: '/comments',
+           data: comment,
+           error: function() {
+              alert('Error');
+           },
+           dataType: 'json',
+           success: function(data) {
+              $('.list-group').append("<li class='list-group-item'>"  + data.description + "</li>");
+              $('#new-comment')[0].reset();
+           },
+           type: 'POST'
+        });
+    });
+
     //Delete
     $('.remove-post').click(function(e){
         e.preventDefault();

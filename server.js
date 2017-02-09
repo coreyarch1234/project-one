@@ -19,7 +19,9 @@ app.use(express.static('public'));
 
 // getting-started.js Mongoose
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/test');
+
+var Comment = require("./models/comment.js");
 
 var Post = require("./models/post.js");
 
@@ -32,10 +34,18 @@ app.get('/', function (req, res) {
 
 //Posts show
 app.get('/posts/:id', function(req, res){
-    Post.findById(req.params.id).exec(function(err, post){
-        res.render('post-show', {post: post});
+    Post.findById(req.params.id).populate('comments').exec(function(err, post){
+        res.render('posts-show', {post: post});
     });
 });
+
+//Posts show
+// app.get('/posts/:id', function(req, res){
+//     Post.findById(req.params.id).populate('comments').exec(function(err, post){
+//         res.render('posts-show', {post: post});
+//     });
+//
+// });
 
 //Posts Create route. Post posts. Save to database.
 app.post('/posts', function(req, res){
@@ -82,6 +92,21 @@ app.put('/posts/:id', function(req, res){
         });
     });
 });
+
+
+
+app.post('/comments', function (req, res) {
+    Post.findById(req.body.post).exec(function (err, post) {
+        var comment = req.body;
+        Comment.create(comment, function(err, comment){
+            if (err){ return res.status(300) };
+            post.comments << comment
+            post.save();
+            res.status(200).json(comment);
+        });
+    });
+});
+
 
 
 
