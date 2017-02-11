@@ -3,19 +3,18 @@
 <form id='new-comment'>
     <label for='body'>New Comment</label></br>
     <input type="text" placeholder= "Enter a comment" name="description" />
-    <input type="hidden" value="{{post._id}}" name="post" />
+    <input type="text" value="{{post._id}}" name="post" />
       <button type='submit'>Save</button>
 </form>
 
 <h2>Comments</h2>
 <ul class="list-group">
   {{#each post.comments}}
-    <li class='list-group-item'>
-        <a href= '/posts/{{this._id}}'>{{this.body}}</a>
-        <div class="remove-post" data-id="{{this._id}}">Remove</div>
-        <a href= '/posts/{{this._id}}/edit'>Edit</a>
+    <li class='list-group-item-comment'>
+        <!-- <a href= '/posts/{{this._id}}'>{{this.description}}</a> -->
+        <p>{{this.description}}</p>
+        <!-- <div class="remove-post" data-id="{{this._id}}">Remove</div>
+        <a href= '/posts/{{this._id}}/edit'>Edit</a> -->
     </li>
   {{/each}}
 </ul>
-
-{{post.comments}}

@@ -30,10 +30,10 @@ $(document).ready(function(){
            },
            dataType: 'json',
            success: function(data) {
-              $('.list-group').append("<li class='list-group-item'>"  + data.description + "</li>");
+              $('.list-group').append("<li class='list-group-item-comment'>"  + data.description + "</li>");
               $('#new-comment')[0].reset();
-           },
-           type: 'POST'
+          },
+          type: 'POST'
         });
     });
 

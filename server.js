@@ -39,14 +39,6 @@ app.get('/posts/:id', function(req, res){
     });
 });
 
-//Posts show
-// app.get('/posts/:id', function(req, res){
-//     Post.findById(req.params.id).populate('comments').exec(function(err, post){
-//         res.render('posts-show', {post: post});
-//     });
-//
-// });
-
 //Posts Create route. Post posts. Save to database.
 app.post('/posts', function(req, res){
     var post = req.body;
@@ -55,13 +47,6 @@ app.post('/posts', function(req, res){
         res.status(200).json(post);
     });
 
-    // Post.findOne({ 'body': 'Hello World' }, function (err, person) {
-    //   if (err) return handleError(err);
-    // //   console.log('%s %s is a %s.', person.name.first, person.name.last, person.occupation) // Space Ghost is a talk show host.
-    // })
-
-    // res.json(posts);
-    // res.render('posts-index', {posts: posts});
 });
 
 //Posts delete
@@ -100,17 +85,15 @@ app.post('/comments', function (req, res) {
         var comment = req.body;
         Comment.create(comment, function(err, comment){
             if (err){ return res.status(300) };
-            post.comments << comment
-            post.save();
-            res.status(200).json(comment);
+            post.comments.push(comment);
+            post.save(function (err) {
+                if (err){ return res.status(300) };
+                console.log(post.comments);
+                res.status(200).json(comment);
+            });
         });
     });
 });
-
-
-
-
-
 
 //DEPLOY
 app.listen(process.env.PORT || 3000, function(){
