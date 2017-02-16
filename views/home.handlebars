@@ -1,19 +1,13 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-6" >
-            <!-- <h1 id="alex-the-kid">Alex is the GOAT.</h1>
-            <h1 id="alex-the-bug">Alex has bizarre bugs.</h1> -->
-            <h1 class="text-success">These are a list of important posts.</h1>
-            <!-- <img id="just-do-it" class = "img-responsive"src="/images/just_du_it.jpg" alt=""> -->
-        </div>
-        <div class="col-md-6">
+        <div class="col-sm-offset-3 col-md-6">
+            <legend>Post</legend>
             <form action='/posts' id='new-post'>
-                <label for='body'>New Post</label></br>
                 <input type="text" placeholder= "Enter a post" name="body" />
-                  <button type='submit'>Save</button>
+                <button type='submit'>Save</button>
             </form>
-            <h2>Posts</h2>
-            <ul class="list-group">
+            </br>
+            <ul class="list-group" id="posts">
               {{#each posts}}
                 <li class='list-group-item'>
                     <a href= '/posts/{{this._id}}'>{{this.body}}</a>

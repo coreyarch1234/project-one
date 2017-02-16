@@ -6,10 +6,7 @@ var PostSchema = new Schema({
   createdAt     : { type: Date },
   updatedAt     : { type: Date },
   body   : { type: String, required: true },
-  comments: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Comment'
-  }]
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
 })
 
 // SET createdAt and updatedAt

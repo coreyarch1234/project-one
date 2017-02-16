@@ -21,9 +21,28 @@ app.use(express.static('public'));
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/test');
 
-var Comment = require("./models/comment.js");
-
+var Comment = require("./models/comment.js"); //Allows use to use the Comment model here
 var Post = require("./models/post.js");
+
+//User authentication
+userAuth = require("./controllers/auth.js");
+
+app.get('/signup', function (req, res) {
+    res.render('signup');
+});
+
+
+app.post('/signup', function(req, res){
+   //  var user = {
+   //     Name: req.body.name,
+   //     Email: req.body.email,
+   //     Pass: req.body.pass,
+   //     Num: req.body.num
+   // };
+   console.log(req.body)
+   // res.send(req.body)
+
+});
 
 //Index route
 app.get('/', function (req, res) {
@@ -77,8 +96,6 @@ app.put('/posts/:id', function(req, res){
         });
     });
 });
-
-
 
 app.post('/comments', function (req, res) {
     Post.findById(req.body.post).exec(function (err, post) {

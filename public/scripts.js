@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    //Create
+    //Create Post
     $('#new-post').submit(function(e){
         e.preventDefault();
         var post = $(this).serialize();
@@ -37,7 +37,7 @@ $(document).ready(function(){
         });
     });
 
-    //Delete
+    //Delete Post
     $('.remove-post').click(function(e){
         e.preventDefault();
         var post = $(this);
@@ -52,7 +52,7 @@ $(document).ready(function(){
         });
     });
 
-    //update
+    //Update Post
     $('#update-post').submit(function(e){
         e.preventDefault();
         var post = $(this).serialize();
@@ -73,26 +73,22 @@ $(document).ready(function(){
         });
     });
 
-});
-
-
-
-$(document).ready(function(){
-console.log("ready");
-
-    $("#hide-button").click(function(){
-        $("#alex-the-bug").hide();
-    });
-    $("#show-button").click(function(){
-        $("#alex-the-bug").show();
-    });
-    $("#fade-button").click(function(){
-        console.log("clicked")
-        $("#alex-the-bug").fadeOut(1000);
-    });
-    $("#success-button").click(function(){
-        console.log("clicked")
-        $(".text-success").removeClass("text-success");
+    //Sign-Up
+    $('#signup').submit(function(e){
+        e.preventDefault();
+        var user = $(this).serialize();
+        $.ajax({
+           url: '/signup',
+           data: user,
+           error: function() {
+              alert('Error');
+           },
+           dataType: 'json',
+           success: function(data) {
+              console.log("Received user data");
+           },
+           type: 'POST'
+        });
     });
 
 });
