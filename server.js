@@ -25,24 +25,29 @@ var Comment = require("./models/comment.js"); //Allows use to use the Comment mo
 var Post = require("./models/post.js");
 
 //User authentication
-userAuth = require("./controllers/auth.js");
+var userAuth = require("./controllers/auth.js");
 
-app.get('/signup', function (req, res) {
-    res.render('signup');
-});
+// app.get('/signup', function (req, res) {
+//     res.render('signup');
+// });
+//
+//
+// app.post('/signup', function(req, res){
+//    //  var user = {
+//    //     Name: req.body.name,
+//    //     Email: req.body.email,
+//    //     Pass: req.body.pass,
+//    //     Num: req.body.num
+//    // };
+//    console.log(req.body)
+//    // res.send(req.body)
+//
+// });
+
+app.get('/signup', userAuth.authGet);
 
 
-app.post('/signup', function(req, res){
-   //  var user = {
-   //     Name: req.body.name,
-   //     Email: req.body.email,
-   //     Pass: req.body.pass,
-   //     Num: req.body.num
-   // };
-   console.log(req.body)
-   // res.send(req.body)
-
-});
+app.post('/signup', userAuth.authPost);
 
 //Index route
 app.get('/', function (req, res) {
