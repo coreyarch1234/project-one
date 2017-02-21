@@ -1,4 +1,5 @@
 
+var Post = require("../models/post.js");
 
 module.exports = function(app) {
     //Index route
@@ -11,4 +12,4 @@ module.exports = function(app) {
     // CONTACT US
 
     // ABOUT US
-}
+};

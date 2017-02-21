@@ -26,53 +26,28 @@ var Post = require("./models/post.js");
 //User authentication
 require("./controllers/auth.js")(app);
 require("./controllers/index.js")(app);
+require("./controllers/show.js")(app);
+require("./controllers/create.js")(app);
+require("./controllers/delete.js")(app);
+require("./controllers/update.js")(app);
 
-//Posts show
-app.get('/posts/:id', function(req, res){
-    Post.findById(req.params.id).populate('comments').exec(function(err, post){
-        res.render('posts-show', {post: post});
-    });
-});
+var jwt = require('express-jwt');
+var cookieParser = require('cookie-parser');
 
-//Posts Create route. Post posts. Save to database.
-app.post('/posts', function(req, res){
-    var post = req.body;
-    Post.create(post, function(err, post){
-        if (err){ return res.status(300) };
-        res.status(200).json(post);
-    });
+app.use(cookieParser());
+  app.use(jwt({
+    secret: 'shhhhhhared-secret',
+    getToken: function fromHeaderOrCookie (req) { //fromHeaderOrQuerystring
+      if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        return req.headers.authorization.split(' ')[1];
+      } else if (req.cookies && req.cookies.token) {
+        return req.cookies.token;
+      }
+      return null;
+    }
+  }).unless({path: ['/', '/login', '/sign-up']}));
 
-});
-
-//Posts delete
-app.delete('/posts/:id', function(req, res){
-    Post.findById(req.params.id).exec(function(err, post){
-        post.remove();
-        res.status(200).json({});
-    });
-});
-
-//Display the edit form
-app.get('/posts/:id/edit', function(req, res){
-    Post.findById(req.params.id).exec(function(err, post){
-        res.render('posts-edit', {post: post});
-    });
-})
-
-//Posts Update
-app.put('/posts/:id', function(req, res){
-    console.log(req.params.id)
-    Post.findById(req.params.id).exec(function(err, post){
-        if (err){ return res.status(300) };
-        post.body = req.body.body;
-        // save the post
-        post.save(function(err, post) {
-            if (err) { return res.send(err) };
-            res.send(post);
-        });
-    });
-});
-
+//Create comments
 app.post('/comments', function (req, res) {
     Post.findById(req.body.post).exec(function (err, post) {
         var comment = req.body;
