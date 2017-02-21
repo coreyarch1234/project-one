@@ -1,4 +1,3 @@
-
 //Express Set
 var express = require('express');
 var exphbs  = require('express-handlebars');
@@ -25,36 +24,8 @@ var Comment = require("./models/comment.js"); //Allows use to use the Comment mo
 var Post = require("./models/post.js");
 
 //User authentication
-var userAuth = require("./controllers/auth.js");
-
-// app.get('/signup', function (req, res) {
-//     res.render('signup');
-// });
-//
-//
-// app.post('/signup', function(req, res){
-//    //  var user = {
-//    //     Name: req.body.name,
-//    //     Email: req.body.email,
-//    //     Pass: req.body.pass,
-//    //     Num: req.body.num
-//    // };
-//    console.log(req.body)
-//    // res.send(req.body)
-//
-// });
-
-app.get('/signup', userAuth.authGet);
-
-
-app.post('/signup', userAuth.authPost);
-
-//Index route
-app.get('/', function (req, res) {
-    Post.find().exec(function(err, posts){
-        res.render('home', {posts: posts});
-    });
-});
+require("./controllers/auth.js")(app);
+require("./controllers/index.js")(app);
 
 //Posts show
 app.get('/posts/:id', function(req, res){
@@ -116,6 +87,26 @@ app.post('/comments', function (req, res) {
         });
     });
 });
+
+
+//mailer
+// project/app.js
+
+// var app = require('express')(),
+//     mailer = require('express-mailer');
+//
+// mailer.extend(app, {
+//   from: 'no-reply@example.com',
+//   host: 'smtp.gmail.com', // hostname
+//   secureConnection: true, // use SSL
+//   port: 465, // port for secure SMTP
+//   transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
+//   auth: {
+//     user: 'gmail.user@gmail.com',
+//     pass: 'userpass'
+//   }
+// });
+//Secure socket layer, received a certification through a check through a DNS...HTTPS AND SSL are the same
 
 //DEPLOY
 app.listen(process.env.PORT || 3000, function(){
