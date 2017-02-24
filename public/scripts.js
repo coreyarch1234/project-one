@@ -86,6 +86,9 @@ $(document).ready(function(){
            dataType: 'json',
            success: function(data) {
               console.log("Received user data");
+              Cookies.set('token', data.token);
+              // IF YOU'D LIKE TO REDIRECT NOW, ADD THIS:
+              window.location.href = "/";
            },
            type: 'POST'
         });

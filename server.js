@@ -24,18 +24,13 @@ var Comment = require("./models/comment.js"); //Allows use to use the Comment mo
 var Post = require("./models/post.js");
 
 //User authentication
-require("./controllers/auth.js")(app);
-require("./controllers/index.js")(app);
-require("./controllers/show.js")(app);
-require("./controllers/create.js")(app);
-require("./controllers/delete.js")(app);
-require("./controllers/update.js")(app);
 
 var jwt = require('express-jwt');
 var cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
-  app.use(jwt({
+
+app.use(jwt({
     secret: 'shhhhhhared-secret',
     getToken: function fromHeaderOrCookie (req) { //fromHeaderOrQuerystring
       if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
@@ -45,7 +40,14 @@ app.use(cookieParser());
       }
       return null;
     }
-  }).unless({path: ['/', '/login', '/sign-up']}));
+}).unless({path: ['/', '/login', '/signup']}));
+
+require("./controllers/auth.js")(app);
+require("./controllers/index.js")(app);
+require("./controllers/show.js")(app);
+require("./controllers/create.js")(app);
+require("./controllers/delete.js")(app);
+require("./controllers/update.js")(app);
 
 //Create comments
 app.post('/comments', function (req, res) {
