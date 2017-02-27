@@ -42,12 +42,8 @@ app.use(jwt({
     }
 }).unless({path: ['/', '/login', '/signup']}));
 
-require("./controllers/auth.js")(app);
-require("./controllers/index.js")(app);
-require("./controllers/show.js")(app);
-require("./controllers/create.js")(app);
-require("./controllers/delete.js")(app);
-require("./controllers/update.js")(app);
+require("./resources/posts")(app);
+
 
 //Create comments
 app.post('/comments', function (req, res) {
@@ -89,3 +85,5 @@ app.post('/comments', function (req, res) {
 app.listen(process.env.PORT || 3000, function(){
 
 });
+
+module.exports = app;
